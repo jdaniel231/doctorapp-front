@@ -8,8 +8,9 @@ const Register = () => {
 
   const onFinishHandler = async (values) => {
     try {
-      const response = await axios.post('http://localhost:8080/api/v1/users/register', values);
+      const response = await axios.post('/api/v1/users/register', values);
       console.log("Registration successful:", response.data);
+      alert("Registration successful:");
       window.location.href = '/login';
     } catch (error) {
       console.error("Registration error:", error);

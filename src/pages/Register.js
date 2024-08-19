@@ -3,18 +3,23 @@ import React from "react";
 import "../styles/RegisterStyles.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showLoading, hideLoading } from "../redux/features/alertSlice";
 
 const Register = () => {
+  
+  const dispatch = useDispatch();
 
   const onFinishHandler = async (values) => {
     try {
+      dispatch(showLoading());
       const response = await axios.post('/api/v1/users/register', values);
+      dispatch(hideLoading());
       console.log("Registration successful:", response.data);
-      alert("Registration successful:");
       window.location.href = '/login';
     } catch (error) {
       console.error("Registration error:", error);
-      alert("An error occurred during registration. Please try again.");
+      dispatch(hideLoading());
     }
   };
 

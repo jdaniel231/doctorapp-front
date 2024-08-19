@@ -3,23 +3,31 @@ import React from "react";
 import "../styles/RegisterStyles.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showLoading, hideLoading } from "../redux/features/alertSlice";
+
 
 const Login = () => {
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const onFinishHandler = async (values) => {
     try {
+      dispatch(showLoading());
       const response = await axios.post('/api/v1/users/login', values);
+      dispatch(hideLoading());
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);
         message.success('Login successful!')
-        navigate('/dashboard');
+        navigate('/');
       } else {
         alert("Invalid credentials!");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred during login. Please try again.");
+      dispatch(hideLoading());
+      console.log(error);
+      message.error("Usuário ou senha inválidos!");
     }
   };
 

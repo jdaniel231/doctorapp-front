@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import { useSelector } from 'react-redux';
 import Spinner from './components/Spinner.js';
+import ProtecteRoute from './components/ProtecteRoute.js';
+import PublicRoute from './components/PublicRoute.js';
 
 function App() {
   const { visible } = useSelector((state) => state.alert);
@@ -14,9 +16,24 @@ function App() {
       <BrowserRouter>
         {visible ? <Spinner /> : (
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/" 
+            element={
+              <ProtecteRoute>
+                <HomePage />
+              </ProtecteRoute>
+            } />
+            <Route path="/login" 
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              } />
+            <Route path="/register" 
+              element={
+                <PublicRoute>
+                  <Register />
+                </PublicRoute>
+              } />
           </Routes>
         )}
       </BrowserRouter>
